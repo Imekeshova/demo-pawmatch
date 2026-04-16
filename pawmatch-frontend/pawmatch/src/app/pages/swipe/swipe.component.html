@@ -1,0 +1,91 @@
+<div class="swipe-page">
+
+  <!-- Match notification toast -->
+  @if (matchNotification) {
+    <div class="match-toast">
+      {{ matchNotification }}
+    </div>
+  }
+
+  <!-- Заголовок -->
+  <div class="page-header">
+    <h2>🐾 Кто тебе понравится?</h2>
+    @if (animals.length > 0) {
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="progressWidth"></div>
+      </div>
+      <p class="counter">{{ currentIndex + 1 }} из {{ animals.length }}</p>
+    }
+  </div>
+
+  <!-- Загрузка -->
+  @if (isLoading) {
+    <div class="loader-wrap">
+      <div class="paw-spinner">🐾</div>
+      <p>Ищем пушистых друзей...</p>
+    </div>
+  }
+
+  <!-- Карточки закончились -->
+  @if (!isLoading && animals.length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">😿</span>
+      <h3>Новых питомцев пока нет</h3>
+      <p>Возвращайтесь позже, чтобы увидеть больше хвостатых!</p>
+      <button class="btn-reload" (click)="loadCards()">Обновить 🔄</button>
+    </div>
+  }
+
+  <!-- Карточка животного -->
+  @if (!isLoading && currentAnimal) {
+    <div
+      class="card-container"
+      [class.swipe-left]="swipeDirection === 'left'"
+      [class.swipe-right]="swipeDirection === 'right'"
+    >
+      <div class="animal-card">
+        <!-- Фото -->
+        <div class="card-photo-wrap">
+          <img
+            [src]="currentAnimal.photo || 'assets/placeholder-paw.png'"
+            [alt]="currentAnimal.name"
+            class="card-photo"
+            onerror="this.src='https://placekitten.com/400/400'"
+          />
+          <div class="species-badge">{{ getSpeciesEmoji(currentAnimal.species) }}</div>
+          <div class="likes-badge">❤️ {{ currentAnimal.likesCount }}</div>
+        </div>
+
+        <!-- Информация -->
+        <div class="card-body">
+          <div class="card-name-row">
+            <h2 class="card-name">{{ currentAnimal.name }}</h2>
+            <span class="card-age">{{ currentAnimal.age }} {{ currentAnimal.age === 1 ? 'год' : 'лет' }}</span>
+          </div>
+          <p class="card-breed">{{ currentAnimal.breed }}</p>
+
+          <div class="card-tags">
+            @if (currentAnimal.isVaccinated) {
+              <span class="tag tag-green">💉 Привит</span>
+            }
+            @if (currentAnimal.isNeutered) {
+              <span class="tag tag-purple">✂️ Стерилизован</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Кнопки свайпа -->
+      <div class="swipe-actions">
+        <button class="btn-dislike" (click)="onDislike()" [disabled]="!!swipeDirection">
+          <span>👎</span>
+          <small>Дальше</small>
+        </button>
+        <button class="btn-like" (click)="onLike()" [disabled]="!!swipeDirection">
+          <span>❤️</span>
+          <small>Люблю!</small>
+        </button>
+      </div>
+    </div>
+  }
+</div>

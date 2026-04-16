@@ -1,0 +1,155 @@
+/* ── Global reset & base ────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Nunito', 'Trebuchet MS', 'Segoe UI', sans-serif;
+  background: #fff8fc;
+  color: #3d1a2e;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────────── */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #f5d0e8;
+  z-index: 100;
+  box-shadow: 0 2px 16px rgba(200, 75, 140, 0.08);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.logo-paw {
+  font-size: 24px;
+}
+
+.logo-text {
+  font-size: 20px;
+  font-weight: 900;
+  color: #d63384;
+  letter-spacing: -0.5px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.header-nav a {
+  padding: 8px 16px;
+  border-radius: 100px;
+  text-decoration: none;
+  color: #b088c0;
+  font-weight: 700;
+  font-size: 14px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.header-nav a:hover {
+  background: #ffe0f0;
+  color: #d63384;
+}
+
+.header-nav a.active {
+  background: linear-gradient(135deg, #e0529a, #c84b8c);
+  color: white;
+}
+
+/* ── Main content ───────────────────────────────────────────────────────────── */
+main {
+  min-height: 100vh;
+}
+
+main.with-header {
+  padding-top: 64px;
+}
+
+/* ── Bottom nav (mobile) ────────────────────────────────────────────────────── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid #f5d0e8;
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  box-shadow: 0 -4px 20px rgba(200, 75, 140, 0.08);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-decoration: none;
+  color: #c0a0c8;
+  padding: 8px 20px;
+  border-radius: 16px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.nav-item.active {
+  color: #d63384;
+}
+
+.nav-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.nav-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Responsive: show bottom nav on mobile ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .header-nav {
+    display: none;
+  }
+
+  .bottom-nav {
+    display: flex;
+  }
+
+  main.with-header {
+    padding-bottom: 68px;
+  }
+}
+
+@media (min-width: 769px) {
+  .bottom-nav {
+    display: none;
+  }
+}

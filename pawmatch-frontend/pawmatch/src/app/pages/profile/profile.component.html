@@ -1,0 +1,37 @@
+<div class="profile-page">
+  <div class="profile-hero">
+    <div class="avatar">🐾</div>
+    @if (user) {
+      <h2>{{ user.username }}</h2>
+      <p class="profile-email">{{ user.email }}</p>
+    }
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-row">
+      <span class="row-icon">👤</span>
+      <div>
+        <p class="row-label">Имя пользователя</p>
+        <p class="row-value">{{ user?.username ?? '—' }}</p>
+      </div>
+    </div>
+    <div class="profile-row">
+      <span class="row-icon">📧</span>
+      <div>
+        <p class="row-label">Email</p>
+        <p class="row-value">{{ user?.email || 'Не указан' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-links">
+    <a routerLink="/swipe"   class="quick-link">🐾 Свайп</a>
+    <a routerLink="/matches" class="quick-link">💕 Матчи</a>
+    <a routerLink="/pets"    class="quick-link">🏠 Питомцы</a>
+  </div>
+
+  <!-- click event — выход -->
+  <button class="btn-logout" (click)="onLogout()">
+    🚪 Выйти из аккаунта
+  </button>
+</div>

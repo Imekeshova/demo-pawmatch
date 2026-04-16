@@ -1,0 +1,45 @@
+<div class="pets-page">
+  <div class="page-header">
+    <h1>🏠 Мои питомцы</h1>
+    <p class="subtitle">Твои пушистые друзья</p>
+  </div>
+
+  @if (isLoading) {
+    <div class="loader-wrap">
+      <div class="paw-spin">🐾</div>
+      <p>Загружаем питомцев...</p>
+    </div>
+  }
+
+  @if (!isLoading && pets.length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">🏡</span>
+      <h3>Питомцев пока нет</h3>
+      <p>Усынови животного из приюта и добавь его сюда!</p>
+      <a routerLink="/swipe" class="btn-go">Найти питомца 🐾</a>
+    </div>
+  }
+
+  @if (!isLoading && pets.length > 0) {
+    <div class="pets-grid">
+      @for (pet of pets; track pet.id) {
+        <div class="pet-card" (click)="onPetClick(pet)">
+          <div class="pet-photo-wrap">
+            <img
+              [src]="pet.animal.photo || 'assets/placeholder-paw.png'"
+              [alt]="pet.name"
+              onerror="this.src='https://placekitten.com/300/300'"
+            />
+            <div class="species-badge">{{ getSpeciesEmoji(pet.animal.species) }}</div>
+          </div>
+          <div class="pet-body">
+            <h3>{{ pet.name }}</h3>
+            <p class="pet-breed">{{ pet.animal.breed }}</p>
+            <p class="pet-weight">⚖️ {{ pet.weight }} кг</p>
+            <div class="pet-arrow">→</div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

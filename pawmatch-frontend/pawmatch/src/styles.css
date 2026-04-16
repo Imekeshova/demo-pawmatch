@@ -1,0 +1,59 @@
+/* ── PawMatch Global Styles ─────────────────────────────────────── */
+
+:root {
+  --pink-deep:   #d63384;
+  --pink-mid:    #e0529a;
+  --pink-light:  #f5c2d9;
+  --pink-pale:   #fff0f7;
+  --purple-soft: #b088c0;
+  --plum:        #3d1a2e;
+  --radius-lg:   20px;
+  --radius-xl:   28px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Nunito', 'Trebuchet MS', 'Segoe UI', sans-serif;
+  background: #fff8fc;
+  color: var(--plum);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--pink-deep);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Custom scrollbar — розовый */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #fff0f7;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--pink-light);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pink-mid);
+}
+
+/* Selection colour */
+::selection {
+  background: var(--pink-light);
+  color: var(--plum);
+}

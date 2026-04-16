@@ -1,0 +1,64 @@
+<div class="matches-page">
+  <div class="page-header">
+    <h1>💕 Мои матчи</h1>
+    <p class="subtitle">Животные, которым ты понравился(ась)</p>
+  </div>
+
+  @if (isLoading) {
+    <div class="loader-wrap">
+      <div class="paw-spin">🐾</div>
+      <p>Загружаем матчи...</p>
+    </div>
+  }
+
+  @if (!isLoading && matches.length === 0) {
+    <div class="empty-state">
+      <span class="empty-icon">💔</span>
+      <h3>Матчей пока нет</h3>
+      <p>Листай карточки в разделе «Свайп» и найди своего питомца!</p>
+      <a routerLink="/swipe" class="btn-go">Перейти к свайпу 🐾</a>
+    </div>
+  }
+
+  @if (!isLoading && matches.length > 0) {
+    <div class="matches-grid">
+      @for (match of matches; track match.id) {
+        <div class="match-card">
+          <div class="match-photo-wrap">
+            <img
+              [src]="match.animal.photo || 'assets/placeholder-paw.png'"
+              [alt]="match.animal.name"
+              onerror="this.src='https://placekitten.com/300/300'"
+            />
+            <div class="heart-badge">💕</div>
+            <div class="species-badge">{{ getSpeciesEmoji(match.animal.species) }}</div>
+          </div>
+
+          <div class="match-body">
+            <div class="match-name-row">
+              <h3>{{ match.animal.name }}</h3>
+              <span class="match-age">{{ match.animal.age }} лет</span>
+            </div>
+            <p class="match-breed">{{ match.animal.breed }}</p>
+
+            <div class="match-tags">
+              @if (match.animal.isVaccinated) {
+                <span class="tag tag-green">💉 Привит</span>
+              }
+              @if (match.animal.isNeutered) {
+                <span class="tag tag-purple">✂️ Стерилизован</span>
+              }
+            </div>
+
+            <p class="match-date">{{ getTimeAgo(match.createdAt) }}</p>
+
+            <!-- click event — контакт с приютом -->
+            <button class="btn-contact" (click)="onContact(match)">
+              📞 Связаться с приютом
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

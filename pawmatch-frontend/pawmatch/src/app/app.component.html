@@ -1,0 +1,44 @@
+<!-- Верхняя навигация (видна только когда пользователь авторизован) -->
+@if (showNav) {
+  <header class="app-header">
+    <div class="header-inner">
+      <a routerLink="/swipe" class="logo">
+        <span class="logo-paw">🐾</span>
+        <span class="logo-text">PawMatch</span>
+      </a>
+      <nav class="header-nav">
+        <a routerLink="/swipe"   routerLinkActive="active">Свайп</a>
+        <a routerLink="/matches" routerLinkActive="active">Матчи</a>
+        <a routerLink="/pets"    routerLinkActive="active">Питомцы</a>
+        <a routerLink="/profile" routerLinkActive="active">Профиль</a>
+      </nav>
+    </div>
+  </header>
+}
+
+<!-- Основной контент -->
+<main [class.with-header]="showNav">
+  <router-outlet></router-outlet>
+</main>
+
+<!-- Нижняя навигация (мобильная) -->
+@if (showNav) {
+  <nav class="bottom-nav">
+    <a routerLink="/swipe"   routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">🐾</span>
+      <span class="nav-label">Свайп</span>
+    </a>
+    <a routerLink="/matches" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">💕</span>
+      <span class="nav-label">Матчи</span>
+    </a>
+    <a routerLink="/pets"    routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Питомцы</span>
+    </a>
+    <a routerLink="/profile" routerLinkActive="active" class="nav-item">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Профиль</span>
+    </a>
+  </nav>
+}

@@ -1,0 +1,68 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <span class="paw">🐾</span>
+      <h1>PawMatch</h1>
+      <p class="tagline">Создай аккаунт и найди друга!</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" novalidate>
+
+      <!-- form control 1 -->
+      <div class="form-group">
+        <label for="username">Имя пользователя</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🐱</span>
+          <input id="username" type="text" [(ngModel)]="username"
+                 name="username" placeholder="username" required />
+        </div>
+      </div>
+
+      <!-- form control 2 -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-wrapper">
+          <span class="input-icon">📧</span>
+          <input id="email" type="email" [(ngModel)]="email"
+                 name="email" placeholder="kitty@example.com" required />
+        </div>
+      </div>
+
+      <!-- form control 3 -->
+      <div class="form-group">
+        <label for="password">Пароль</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔑</span>
+          <input id="password" type="password" [(ngModel)]="password"
+                 name="password" placeholder="минимум 6 символов" required />
+        </div>
+      </div>
+
+      <!-- form control 4 -->
+      <div class="form-group">
+        <label for="confirmPassword">Подтвердите пароль</label>
+        <div class="input-wrapper">
+          <span class="input-icon">🔒</span>
+          <input id="confirmPassword" type="password" [(ngModel)]="confirmPassword"
+                 name="confirmPassword" placeholder="повторите пароль" required />
+        </div>
+      </div>
+
+      @if (errorMsg) {
+        <div class="error-banner">{{ errorMsg }}</div>
+      }
+
+      <button type="submit" class="btn-primary" [disabled]="isLoading">
+        @if (isLoading) {
+          <span class="spinner"></span> Регистрируемся...
+        } @else {
+          Зарегистрироваться 🐾
+        }
+      </button>
+    </form>
+
+    <p class="auth-link">
+      Уже есть аккаунт? <a routerLink="/login">Войти</a>
+    </p>
+  </div>
+</div>

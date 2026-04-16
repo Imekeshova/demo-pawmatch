@@ -1,0 +1,197 @@
+<div class="detail-page">
+
+  @if (isLoading) {
+    <div class="loader-wrap">
+      <div class="paw-spin">🐾</div>
+      <p>Загружаем данные питомца...</p>
+    </div>
+  }
+
+  @if (!isLoading && !pet) {
+    <div class="not-found">
+      <span>😿</span>
+      <p>Питомец не найден</p>
+      <a routerLink="/pets">← Вернуться</a>
+    </div>
+  }
+
+  @if (!isLoading && pet) {
+    <!-- Hero -->
+    <div class="pet-hero">
+      <button class="btn-back" routerLink="/pets">← Назад</button>
+      <div class="hero-photo-wrap">
+        <img
+          [src]="pet.animal.photo || 'assets/placeholder-paw.png'"
+          [alt]="pet.name"
+          onerror="this.src='https://placekitten.com/400/400'"
+        />
+      </div>
+      <div class="hero-info">
+        <h1>{{ pet.name }}</h1>
+        <p class="hero-breed">{{ pet.animal.breed }}</p>
+        <div class="hero-stats">
+          <span>🎂 {{ pet.birthDate }}</span>
+          <span>⚖️ {{ pet.weight }} кг</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn" [class.active]="activeTab === 'health'" (click)="setTab('health')">
+        🩺 Здоровье
+      </button>
+      <button class="tab-btn" [class.active]="activeTab === 'reminders'" (click)="setTab('reminders')">
+        ⏰ Напоминания
+      </button>
+    </div>
+
+    <!-- ── Health Records tab ─────────────────────────────── -->
+    @if (activeTab === 'health') {
+      <div class="tab-content">
+        <div class="section-header">
+          <h3>Медицинские записи</h3>
+          <button class="btn-add" (click)="openAddHealth()">+ Добавить</button>
+        </div>
+
+        <!-- Health Form -->
+        @if (showHealthForm) {
+          <div class="form-card">
+            <h4>{{ editingRecord ? 'Редактировать запись' : 'Новая запись' }}</h4>
+
+            <!-- form control 1: recordType -->
+            <div class="form-group">
+              <label>Тип записи</label>
+              <select [(ngModel)]="healthForm.recordType" name="recordType">
+                <option value="vaccination">💉 Прививка</option>
+                <option value="medication">💊 Лечение</option>
+                <option value="checkup">🩺 Осмотр</option>
+              </select>
+            </div>
+
+            <!-- form control 2: title -->
+            <div class="form-group">
+              <label>Название</label>
+              <input type="text" [(ngModel)]="healthForm.title" name="hTitle" placeholder="Название записи" required />
+            </div>
+
+            <!-- form control 3: description -->
+            <div class="form-group">
+              <label>Описание</label>
+              <textarea [(ngModel)]="healthForm.description" name="hDesc" placeholder="Подробности..." rows="3"></textarea>
+            </div>
+
+            <!-- form control 4: date -->
+            <div class="form-group">
+              <label>Дата</label>
+              <input type="date" [(ngModel)]="healthForm.date" name="hDate" required />
+            </div>
+
+            <!-- form control 5: nextDueDate (опционально) -->
+            <div class="form-group">
+              <label>Следующий визит (необяз.)</label>
+              <input type="date" [(ngModel)]="healthForm.nextDueDate" name="hNextDate" />
+            </div>
+
+            <div class="form-actions">
+              <button class="btn-save" (click)="submitHealthForm()">💾 Сохранить</button>
+              <button class="btn-cancel" (click)="cancelForms()">Отмена</button>
+            </div>
+          </div>
+        }
+
+        <!-- Health list -->
+        @if (healthRecords.length === 0 && !showHealthForm) {
+          <div class="empty-tab">
+            <span>📋</span>
+            <p>Медицинских записей пока нет</p>
+          </div>
+        }
+
+        @for (record of healthRecords; track record.id) {
+          <div class="record-card">
+            <div class="record-icon">{{ getRecordIcon(record.recordType) }}</div>
+            <div class="record-body">
+              <div class="record-header-row">
+                <strong>{{ record.title }}</strong>
+                <span class="record-type-badge">{{ getRecordLabel(record.recordType) }}</span>
+              </div>
+              <p class="record-desc">{{ record.description }}</p>
+              <div class="record-dates">
+                <span>📅 {{ record.date }}</span>
+                @if (record.nextDueDate) {
+                  <span class="next-due">⏭ {{ record.nextDueDate }}</span>
+                }
+              </div>
+            </div>
+            <div class="record-actions">
+              <!-- click event 4 — редактировать -->
+              <button class="btn-icon btn-edit" (click)="onEditRecord(record)" title="Редактировать">✏️</button>
+              <!-- click event 5 — удалить -->
+              <button class="btn-icon btn-del"  (click)="onDeleteRecord(record)" title="Удалить">🗑️</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- ── Reminders tab ───────────────────────────────────── -->
+    @if (activeTab === 'reminders') {
+      <div class="tab-content">
+        <div class="section-header">
+          <h3>Напоминания</h3>
+          <button class="btn-add" (click)="openAddReminder()">+ Добавить</button>
+        </div>
+
+        <!-- Reminder Form -->
+        @if (showReminderForm) {
+          <div class="form-card">
+            <h4>{{ editingReminder ? 'Редактировать' : 'Новое напоминание' }}</h4>
+
+            <div class="form-group">
+              <label>Название</label>
+              <input type="text" [(ngModel)]="reminderForm.title" name="rTitle" placeholder="Что нужно не забыть?" required />
+            </div>
+
+            <div class="form-group">
+              <label>Дата и время</label>
+              <input type="datetime-local" [(ngModel)]="reminderForm.dateTime" name="rDateTime" required />
+            </div>
+
+            <div class="form-actions">
+              <button class="btn-save" (click)="submitReminderForm()">💾 Сохранить</button>
+              <button class="btn-cancel" (click)="cancelForms()">Отмена</button>
+            </div>
+          </div>
+        }
+
+        @if (reminders.length === 0 && !showReminderForm) {
+          <div class="empty-tab">
+            <span>⏰</span>
+            <p>Напоминаний пока нет</p>
+          </div>
+        }
+
+        @for (reminder of reminders; track reminder.id) {
+          <div class="reminder-card" [class.completed]="reminder.isCompleted">
+            <div class="reminder-check" [class.done]="reminder.isCompleted">
+              @if (reminder.isCompleted) { ✅ } @else { ⭕ }
+            </div>
+            <div class="reminder-body">
+              <strong [class.strikethrough]="reminder.isCompleted">{{ reminder.title }}</strong>
+              <p class="reminder-time">🕐 {{ reminder.dateTime | date:'dd.MM.yyyy HH:mm' }}</p>
+            </div>
+            <div class="record-actions">
+              <!-- click event 6 — отметить выполненным -->
+              <button class="btn-icon" (click)="onToggleReminder(reminder)" title="Выполнено">
+                {{ reminder.isCompleted ? '↩️' : '✔️' }}
+              </button>
+              <!-- click event 7 — удалить -->
+              <button class="btn-icon btn-del" (click)="onDeleteReminder(reminder)" title="Удалить">🗑️</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

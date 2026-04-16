@@ -1,0 +1,77 @@
+.pets-page {
+  padding: 24px 16px 100px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.page-header { text-align: center; margin-bottom: 32px; }
+.page-header h1 { font-size: 28px; font-weight: 800; color: #c0387a; margin: 0 0 6px; }
+.subtitle { color: #b088c0; margin: 0; }
+
+.loader-wrap { text-align: center; padding: 60px 0; }
+.paw-spin { font-size: 52px; display: block; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loader-wrap p { color: #b088c0; margin-top: 10px; }
+
+.empty-state { text-align: center; padding: 60px 16px; }
+.empty-icon { font-size: 80px; display: block; margin-bottom: 16px; }
+.empty-state h3 { color: #c0387a; font-size: 22px; margin: 0 0 8px; }
+.empty-state p  { color: #b088c0; margin: 0 0 20px; }
+.btn-go {
+  display: inline-block;
+  background: linear-gradient(135deg, #e0529a, #c84b8c);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 100px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.pet-card {
+  background: white;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(200, 75, 140, 0.12);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.pet-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(200, 75, 140, 0.22);
+}
+
+.pet-photo-wrap {
+  position: relative;
+  height: 180px;
+}
+.pet-photo-wrap img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.species-badge {
+  position: absolute; top: 10px; left: 10px;
+  background: rgba(255,255,255,0.9); border-radius: 50%;
+  width: 36px; height: 36px; display: flex; align-items: center;
+  justify-content: center; font-size: 20px;
+}
+
+.pet-body {
+  padding: 16px;
+  position: relative;
+}
+.pet-body h3 { font-size: 18px; font-weight: 800; color: #3d1a2e; margin: 0 0 4px; }
+.pet-breed   { font-size: 13px; color: #9a6090; margin: 0 0 4px; }
+.pet-weight  { font-size: 13px; color: #b088c0; margin: 0; }
+.pet-arrow {
+  position: absolute; right: 16px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px; color: #e0529a; font-weight: 700;
+}
+
+@media (max-width: 500px) {
+  .pets-grid { grid-template-columns: 1fr 1fr; }
+}
