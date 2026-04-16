@@ -1,0 +1,1 @@
+web: gunicorn pawmatch_backend.wsgi:application

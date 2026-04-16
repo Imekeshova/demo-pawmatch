@@ -24,7 +24,7 @@ def register_view(request):
 
     refresh = RefreshToken.for_user(user)
     return Response({
-        'access':  str(refresh.access_token),
+        'access': str(refresh.access_token),
         'refresh': str(refresh),
     }, status=status.HTTP_201_CREATED)
 
@@ -33,6 +33,16 @@ def register_view(request):
 def me_view(request):
     """Данные текущего пользователя."""
     return Response(UserSerializer(request.user).data)
+
+
+# ── Animals (список всех) ─────────────────────────────────────────────────────
+
+class AnimalListView(generics.ListAPIView):
+    """
+    GET /api/animals/ — список всех животных для фронтенда
+    """
+    queryset = Animal.objects.all()
+    serializer_class = AnimalSerializer
 
 
 # ── Swipe ─────────────────────────────────────────────────────────────────────
@@ -53,7 +63,7 @@ def swipe_view(request):
     Ответ: { "status": "swiped" } или { "status": "matched", "match": {...} }
     """
     animal_id = request.data.get('animal_id')
-    is_like   = request.data.get('is_like', False)
+    is_like = request.data.get('is_like', False)
 
     try:
         animal = Animal.objects.get(id=animal_id)
@@ -68,9 +78,6 @@ def swipe_view(request):
         swipe.is_like = is_like
         swipe.save()
 
-    # «Матч» = пользователь поставил лайк
-    # (В реальном приложении матч возникает, когда приют тоже одобрил;
-    #  здесь для демонстрации матч создаётся при любом лайке)
     if is_like:
         match, _ = Match.objects.get_or_create(user=request.user, animal=animal)
         match_data = MatchSerializer(match, context={'request': request}).data

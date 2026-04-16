@@ -1,3 +1,4 @@
+import os   
 from pathlib import Path
 from datetime import timedelta
 
@@ -34,8 +35,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+CORS_ALLOW_ALL_ORIGINS = True
 ROOT_URLCONF = 'pawmatch_backend.urls'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 TEMPLATES = [
     {
@@ -92,8 +94,5 @@ SIMPLE_JWT = {
 }
 
 # ── CORS — разрешаем Angular на 4200 ─────────────────────────────────────────
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:4200',
-    'http://127.0.0.1:4200',
-]
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
